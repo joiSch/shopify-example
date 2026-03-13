@@ -17,13 +17,13 @@
         "announcement_BxgCk9": {
           "type": "_announcement",
           "settings": {
-            "text": "Welcome to our store",
+            "text": "Heute Versandkostenfrei!",
             "link": "",
             "font": "var(--font-subheading--family)",
-            "font_size": "0.75rem",
-            "weight": "",
-            "letter_spacing": "normal",
-            "case": "none"
+            "font_size": "0.8125rem",
+            "weight": "600",
+            "letter_spacing": "0.08em",
+            "case": "uppercase"
           },
           "blocks": {}
         }
@@ -35,10 +35,10 @@
       "settings": {
         "speed": 5,
         "section_width": "page-width",
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-5",
         "divider_width": 1,
-        "padding-block-start": 15,
-        "padding-block-end": 15
+        "padding-block-start": 13,
+        "padding-block-end": 13
       }
     },
     "header_section": {
@@ -81,7 +81,7 @@
       },
       "settings": {
         "logo_position": "left",
-        "menu_position": "left",
+        "menu_position": "center",
         "menu_row": "top",
         "show_search": true,
         "search_position": "right",

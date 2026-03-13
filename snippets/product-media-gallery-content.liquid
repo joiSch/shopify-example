@@ -73,7 +73,11 @@
     assign slideshow_class = ''
 
     if media_presentation == 'carousel'
-      assign render_slideshow_arrows = true
+      if slideshow_controls_style == 'thumbnails' and pagination_position != 'center'
+        assign render_controls_arrows = true
+      else
+        assign render_slideshow_arrows = true
+      endif
     endif
   endif
 
@@ -407,7 +411,10 @@
             controls_on_media: controls_on_media,
             pagination_position: pagination_position,
             aspect_ratio: block_settings.aspect_ratio,
-            thumbnail_radius: block_settings.thumbnail_radius
+            thumbnail_radius: block_settings.thumbnail_radius,
+            show_arrows: render_controls_arrows,
+            arrows_on_media: false,
+            icon_style: block_settings.icons_style
           -%}
         {% endif %}
 

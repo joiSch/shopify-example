@@ -1,0 +1,153 @@
+
+{%- comment -%}
+  Custom styles for the Neoric product page.
+  Included in templates/product.json.
+{%- endcomment -%}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
+
+{% stylesheet %}
+  /* ── Sale price ── */
+  .price {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    color: #1F47FF;
+    text-align: left;
+    letter-spacing: 0;
+  }
+
+  /* ── Prices in a row, all left-aligned ── */
+  .product-details product-price {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: baseline;
+    justify-content: flex-start;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .product-details product-price div {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  /* ── Compare-at / original price ── */
+  .compare-at-price {
+    opacity: 1 !important;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    color: #000000;
+    text-decoration: line-through;
+    text-align: left;
+    letter-spacing: 0;
+  }
+
+  /* ── Tax note (inkl. MwSt.) ── */
+  .tax-note {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 13px;
+    color: #000000;
+    text-align: left;
+    letter-spacing: 0;
+  }
+
+  /* ── Hide divider, quantity selector and accelerated checkout ── */
+  .product-details .divider {
+    display: none !important;
+  }
+
+  /* ── Hide quantity selector and accelerated checkout ── */
+  .product-details .quantity-selector-wrapper,
+  .product-details .quantity-label,
+  .product-details .quantity-rules,
+  .product-details .accelerated-checkout-block {
+    display: none !important;
+  }
+
+  /* ── Inventory in-stock color ── */
+  :root {
+    --color-instock: #16a34a;
+  }
+
+  /* ── Product subtitle (vendor) ── */
+  .product-details .group-block p {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    color: #000000;
+    text-align: left;
+    letter-spacing: 0;
+  }
+
+  /* ── Product title ── */
+  .product-details .group-block h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 25px;
+    line-height: 30px;
+    color: #000000;
+    text-align: left;
+    letter-spacing: 0;
+  }
+
+  /* ── Product details card ── */
+  @media screen and (min-width: 750px) {
+    .product-details > .group-block {
+      background: #FFFFFF !important;
+      box-shadow: 0px 3px 20px #00000029 !important;
+      border: 1px solid #D5D5D5 !important;
+      border-radius: 5px !important;
+      width: 475px;
+      align-self: center;
+    }
+  }
+
+  /* ── Fix image to 480px × 480px ── */
+  @media screen and (min-width: 750px) {
+    /* Force media column to 552px (72px thumbnails + 480px image), center the grid */
+    .product-information__grid:not(
+        .product-information__grid--half,
+        .product-information--media-none
+      ).product-information--media-left {
+      grid-template-columns: 552px 475px !important;
+      margin-inline: auto !important;
+      align-items: center !important;
+      justify-content: center !important;
+      display: flex;
+    }
+
+    /* Cap image slideshow area to exactly 480px */
+    .product-information__media slideshow-container {
+      max-width: 480px;
+    }
+
+    /* Prevent cropping inside the square frame */
+    .product-information__media .media-fit-cover :is(img, .deferred-media__poster-image) {
+      object-fit: contain;
+    }
+
+    /* Center the caret arrows below the image */
+    .product-information__media .slideshow-controls__arrows {
+      justify-content: center;
+      gap: 0;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Neoric Product Styles",
+  "settings": []
+}
+{% endschema %}
