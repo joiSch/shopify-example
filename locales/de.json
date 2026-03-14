@@ -78,7 +78,7 @@
     "header_navigation_label": "Haupt-"
   },
   "actions": {
-    "add_to_cart": "In den Warenkorb legen",
+    "add_to_cart": "In den Einkaufswagen",
     "clear_all": "Alles löschen",
     "remove": "Entfernen",
     "view_in_your_space": "In deinem Bereich anzeigen",
@@ -150,7 +150,7 @@
     "duties_and_taxes_included": "Inkl. Zollgebühren und Steuern.",
     "duties_included": "Inkl. Zollgebühren.",
     "shipping_policy_html": "<a href=\"{{ link }}\">Versand</a> wird beim Checkout berechnet.",
-    "taxes_included": "Inkl. Steuern.",
+    "taxes_included": "Inkl. MwSt.",
     "product_badge_sold_out": "Ausverkauft",
     "product_badge_sale": "Sale",
     "search_input_label": "Suchen",
@@ -300,7 +300,7 @@
   },
   "products": {
     "product": {
-      "add_to_cart": "In den Warenkorb legen",
+      "add_to_cart": "In den Einkaufswagen",
       "added_to_cart": "Zum Warenkorb hinzugefügt",
       "adding_to_cart": "Wird hinzugefügt...",
       "add_to_cart_error": "Fehler beim Hinzufügen zum Warenkorb",

@@ -26,7 +26,7 @@
     flex-direction: row !important;
     align-items: baseline;
     justify-content: flex-start;
-    gap: 8px;
+    gap: 12px;
     flex-wrap: wrap;
   }
 
@@ -34,7 +34,7 @@
     display: flex !important;
     flex-direction: row !important;
     align-items: baseline;
-    gap: 8px;
+    gap: 12px;
   }
 
   /* ── Compare-at / original price ── */
@@ -52,11 +52,10 @@
 
   /* ── Tax note (inkl. MwSt.) ── */
   .tax-note {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 500;
-    font-size: 10px;
     line-height: 13px;
-    color: #000000;
+    height:13px;
+    color: #000000 !important;
+    font: normal normal medium 10px/13px Montserrat;
     text-align: left;
     letter-spacing: 0;
   }
@@ -102,12 +101,16 @@
   }
 
   /* ── Product details card ── */
+  .product-details > .group-block {
+    background: #FFFFFF !important;
+    box-shadow: 0px 3px 20px #00000029 !important;
+    border: 1px solid #D5D5D5 !important;
+    border-radius: 5px !important;
+    padding: 18px !important;
+  }
+
   @media screen and (min-width: 750px) {
     .product-details > .group-block {
-      background: #FFFFFF !important;
-      box-shadow: 0px 3px 20px #00000029 !important;
-      border: 1px solid #D5D5D5 !important;
-      border-radius: 5px !important;
       width: 475px;
       align-self: center;
     }
@@ -127,9 +130,20 @@
       display: flex;
     }
 
+    /* Pin media flex item to its intended width so min-width:100% doesn't resolve too small */
+    .product-information__grid:not(
+        .product-information__grid--half,
+        .product-information--media-none
+      ).product-information--media-left .product-information__media {
+      flex: 0 0 632px;
+      min-width: 0 !important;
+      width: 632px !important;
+    }
+
     /* Cap image slideshow area to exactly 480px */
     .product-information__media slideshow-container {
-      max-width: 480px;
+      width: 480px;
+      height: 480px;
     }
 
     /* Prevent cropping inside the square frame */
@@ -141,6 +155,65 @@
     .product-information__media .slideshow-controls__arrows {
       justify-content: center;
       gap: 0;
+    }
+
+    /* Size thumbnails so 4 fit the 480px height */
+    .product-information__media .slideshow-controls__thumbnails .slideshow-control {
+      height: calc((480px - 2 * var(--padding-2xs) - 3 * var(--gap-xs)) / 4);
+      width: auto;
+    }
+
+    /* Hide the thumbnail of the currently displayed image */
+    .product-information__media .slideshow-controls__thumbnails .slideshow-control[aria-selected="true"] {
+      display: none;
+    }
+  }
+  /* ── Mobile overrides (≤ 749px) ── */
+  @media screen and (max-width: 749px) {
+    .product-details .group-block h1 {
+      font-size: 22px;
+      line-height: 30px;
+    }
+
+    .product-details .group-block p {
+      font-size: 16px;
+      line-height: 22px;
+    }
+
+    .price {
+      font-size: 16px;
+      line-height: 22px;
+    }
+
+    .compare-at-price {
+      font-size: 16px;
+      line-height: 22px;
+    }
+
+    .product-details > .group-block {
+      padding-left: 14px !important;
+      padding-right: 14px !important;
+      padding-top: 18px !important;
+      padding-bottom: 18px !important;
+    }
+
+    /* Tax note */
+    .tax-note {
+      font-size: 10px !important;
+      line-height: 13px;
+    }
+
+    /* Inventory / "Auf Lager, in 2-3 Tagen bei dir" */
+    .product-inventory__text {
+      font-size: 16px !important;
+      line-height: 18px;
+    }
+
+    /* Add to cart button */
+    .product-details .add-to-cart-text {
+      font-size: 16px !important;
+      padding-top: 12px;
+      padding-bottom: 12px;
     }
   }
 {% endstylesheet %}
