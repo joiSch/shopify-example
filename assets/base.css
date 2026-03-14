@@ -4217,6 +4217,12 @@ slideshow-component[disabled='true'] slideshow-arrows {
   display: none;
 }
 
+@media screen and (max-width: 749px) {
+  .slideshow-control--style-chevron {
+    display: none;
+  }
+}
+
 slideshow-arrows .slideshow-control {
   pointer-events: auto;
   opacity: 0;
@@ -4804,6 +4810,7 @@ product-recommendations:has([data-has-recommendations='false']) {
   animation-fill-mode: forwards;
   transition: width var(--animation-speed) var(--animation-easing),
     opacity var(--animation-speed) var(--animation-easing);
+  font-size: 18px;
 }
 
 .add-to-cart__added {

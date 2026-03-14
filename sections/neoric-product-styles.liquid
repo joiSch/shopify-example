@@ -1,0 +1,226 @@
+
+{%- comment -%}
+  Custom styles for the Neoric product page.
+  Included in templates/product.json.
+{%- endcomment -%}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
+
+{% stylesheet %}
+  /* ── Sale price ── */
+  .price {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    color: #1F47FF;
+    text-align: left;
+    letter-spacing: 0;
+  }
+
+  /* ── Prices in a row, all left-aligned ── */
+  .product-details product-price {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: baseline;
+    justify-content: flex-start;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .product-details product-price div {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  /* ── Compare-at / original price ── */
+  .compare-at-price {
+    opacity: 1 !important;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    color: #000000;
+    text-decoration: line-through;
+    text-align: left;
+    letter-spacing: 0;
+  }
+
+  /* ── Tax note (inkl. MwSt.) ── */
+  .tax-note {
+    line-height: 13px;
+    height:13px;
+    color: #000000 !important;
+    font: normal normal medium 10px/13px Montserrat;
+    text-align: left;
+    letter-spacing: 0;
+  }
+
+  /* ── Hide divider, quantity selector and accelerated checkout ── */
+  .product-details .divider {
+    display: none !important;
+  }
+
+  /* ── Hide quantity selector and accelerated checkout ── */
+  .product-details .quantity-selector-wrapper,
+  .product-details .quantity-label,
+  .product-details .quantity-rules,
+  .product-details .accelerated-checkout-block {
+    display: none !important;
+  }
+
+  /* ── Inventory in-stock color ── */
+  :root {
+    --color-instock: #16a34a;
+  }
+
+  /* ── Product subtitle (vendor) ── */
+  .product-details .group-block p {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    color: #000000;
+    text-align: left;
+    letter-spacing: 0;
+  }
+
+  /* ── Product title ── */
+  .product-details .group-block h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 25px;
+    line-height: 30px;
+    color: #000000;
+    text-align: left;
+    letter-spacing: 0;
+  }
+
+  /* ── Product details card ── */
+  .product-details > .group-block {
+    background: #FFFFFF !important;
+    box-shadow: 0px 3px 20px #00000029 !important;
+    border: 1px solid #D5D5D5 !important;
+    border-radius: 5px !important;
+    padding: 18px !important;
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-details > .group-block {
+      width: 475px;
+      align-self: center;
+    }
+  }
+
+  /* ── Fix image to 480px × 480px ── */
+  @media screen and (min-width: 750px) {
+    /* Force media column to 552px (72px thumbnails + 480px image), center the grid */
+    .product-information__grid:not(
+        .product-information__grid--half,
+        .product-information--media-none
+      ).product-information--media-left {
+      grid-template-columns: 552px 475px !important;
+      margin-inline: auto !important;
+      align-items: center !important;
+      justify-content: center !important;
+      display: flex;
+    }
+
+    /* Pin media flex item to its intended width so min-width:100% doesn't resolve too small */
+    .product-information__grid:not(
+        .product-information__grid--half,
+        .product-information--media-none
+      ).product-information--media-left .product-information__media {
+      flex: 0 0 632px;
+      min-width: 0 !important;
+      width: 632px !important;
+    }
+
+    /* Cap image slideshow area to exactly 480px */
+    .product-information__media slideshow-container {
+      width: 480px;
+      height: 480px;
+    }
+
+    /* Prevent cropping inside the square frame */
+    .product-information__media .media-fit-cover :is(img, .deferred-media__poster-image) {
+      object-fit: contain;
+    }
+
+    /* Center the caret arrows below the image */
+    .product-information__media .slideshow-controls__arrows {
+      justify-content: center;
+      gap: 0;
+    }
+
+    /* Size thumbnails so 4 fit the 480px height */
+    .product-information__media .slideshow-controls__thumbnails .slideshow-control {
+      height: calc((480px - 2 * var(--padding-2xs) - 3 * var(--gap-xs)) / 4);
+      width: auto;
+    }
+
+    /* Hide the thumbnail of the currently displayed image */
+    .product-information__media .slideshow-controls__thumbnails .slideshow-control[aria-selected="true"] {
+      display: none;
+    }
+  }
+  /* ── Mobile overrides (≤ 749px) ── */
+  @media screen and (max-width: 749px) {
+    .product-details .group-block h1 {
+      font-size: 22px;
+      line-height: 30px;
+    }
+
+    .product-details .group-block p {
+      font-size: 16px;
+      line-height: 22px;
+    }
+
+    .price {
+      font-size: 16px;
+      line-height: 22px;
+    }
+
+    .compare-at-price {
+      font-size: 16px;
+      line-height: 22px;
+    }
+
+    .product-details > .group-block {
+      padding-left: 14px !important;
+      padding-right: 14px !important;
+      padding-top: 18px !important;
+      padding-bottom: 18px !important;
+    }
+
+    /* Tax note */
+    .tax-note {
+      font-size: 10px !important;
+      line-height: 13px;
+    }
+
+    /* Inventory / "Auf Lager, in 2-3 Tagen bei dir" */
+    .product-inventory__text {
+      font-size: 16px !important;
+      line-height: 18px;
+    }
+
+    /* Add to cart button */
+    .product-details .add-to-cart-text {
+      font-size: 16px !important;
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Neoric Product Styles",
+  "settings": []
+}
+{% endschema %}
