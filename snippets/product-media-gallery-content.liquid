@@ -745,6 +745,23 @@
         }
       }
     }
+
+    .media-gallery--carousel:not(.media-gallery--hint) {
+      --slideshow-gap: var(--gap-2xs);
+
+      :not(.dialog-zoomed-gallery) > .product-media-container:not(:only-child) {
+        width: 86%;
+
+        .product-media img {
+          object-fit: cover;
+        }
+      }
+    }
+
+    .media-gallery--carousel :not(.dialog-zoomed-gallery) > .product-media-container {
+      border-radius: var(--media-radius, 5px);
+      overflow: hidden;
+    }
   }
 
   .dialog-zoomed-gallery__close-button {

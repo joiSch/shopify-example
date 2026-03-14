@@ -149,8 +149,15 @@ export class Slideshow extends Component {
     if (this.#scroll) {
       const { scroller } = this.refs;
       scroller.removeEventListener('mousedown', this.#handleMouseDown);
+      scroller.removeEventListener('touchstart', this.#handleTouchStart);
+      scroller.removeEventListener('touchend', this.#handleTouchEnd);
       this.#scroll.destroy();
     }
+
+    for (const clone of this.#clones) {
+      clone.remove();
+    }
+    this.#clones = [];
 
     const slideCount = this.slides?.length || 0;
     if (slideCount > 1) {
@@ -490,6 +497,12 @@ export class Slideshow extends Component {
   #disabled = false;
 
   /**
+   * Clone elements prepended/appended for infinite visual peek.
+   * @type {Element[]}
+   */
+  #clones = [];
+
+  /**
    * The interval ID for automatic playback.
    * @type {number|undefined}
    */
@@ -518,6 +531,58 @@ export class Slideshow extends Component {
    * @type {HTMLElement[]}
    */
   #visibleSlides = [];
+
+  /**
+   * Prepends a clone of the last slide and appends a clone of the first slide so that
+   * adjacent images are always visible on both sides (including at the boundaries).
+   * Only runs for infinite slideshows with more than one slide.
+   */
+  #setupInfiniteClones() {
+    if (!this.infinite) return;
+    const slides = this.refs.slides;
+    const { scroller } = this.refs;
+    if (!slides?.length || slides.length <= 1 || !scroller) return;
+
+    const makeClone = (source) => {
+      const clone = source.cloneNode(true);
+      clone.removeAttribute('ref');
+      clone.removeAttribute('slide-id');
+      clone.setAttribute('aria-hidden', 'true');
+      clone.setAttribute('data-clone', 'true');
+      return clone;
+    };
+
+    const lastClone = makeClone(slides[slides.length - 1]);
+    const firstClone = makeClone(slides[0]);
+
+    scroller.prepend(lastClone);
+    scroller.append(firstClone);
+
+    this.#clones = [lastClone, firstClone];
+  }
+
+  /**
+   * After each scroll, checks whether the scroller has landed on a clone and if so
+   * instantly teleports to the real equivalent slide so the loop is seamless.
+   */
+  #handleCloneTeleport() {
+    if (!this.#clones.length || this.#disabled) return;
+    const { scroller } = this.refs;
+    const slides = this.refs.slides;
+    if (!slides?.length || !scroller) return;
+
+    const maxScrollLeft = scroller.scrollWidth - scroller.clientWidth;
+
+    if (scroller.scrollLeft <= 1) {
+      // Landed on the prepended last-clone → jump to the real last slide
+      this.#scroll.to(slides[slides.length - 1], { instant: true });
+      this.current = slides.length - 1;
+    } else if (scroller.scrollLeft >= maxScrollLeft - 1) {
+      // Landed on the appended first-clone → jump to the real first slide
+      this.#scroll.to(slides[0], { instant: true });
+      this.current = 0;
+    }
+  }
 
   /**
    * Setup the slideshow without controls for zero or one slides
@@ -552,6 +617,10 @@ export class Slideshow extends Component {
     });
 
     scroller.addEventListener('mousedown', this.#handleMouseDown);
+    scroller.addEventListener('touchstart', this.#handleTouchStart, { passive: true });
+    scroller.addEventListener('touchend', this.#handleTouchEnd);
+
+    this.#setupInfiniteClones();
 
     this.addEventListener('mouseenter', this.suspend);
     this.addEventListener('mouseleave', this.resume);
@@ -634,6 +703,7 @@ export class Slideshow extends Component {
   #onTransitionEnd = () => {
     this.#updateVisibleSlides();
     this.removeAttribute('transitioning');
+    this.#handleCloneTeleport();
   };
 
   /**
@@ -762,7 +832,13 @@ export class Slideshow extends Component {
       const next = this.#sync();
 
       const modifier = current !== next || Math.abs(velocity) < 10 || distanceTravelled < 10 ? 0 : direction;
-      const newIndex = clamp(next + modifier, 0, slides.length - 1);
+      let newIndex = next + modifier;
+      if (this.infinite) {
+        if (newIndex < 0) newIndex = slides.length - 1;
+        else if (newIndex >= slides.length) newIndex = 0;
+      } else {
+        newIndex = clamp(newIndex, 0, slides.length - 1);
+      }
 
       const newSlide = slides[newIndex];
       const currentIndex = this.current;
@@ -814,6 +890,28 @@ export class Slideshow extends Component {
 
   #handlePointerEnter = () => {
     this.setAttribute('actioned', '');
+  };
+
+  #touchStartX = 0;
+
+  #handleTouchStart = (event) => {
+    this.#touchStartX = event.touches[0]?.clientX ?? 0;
+  };
+
+  #handleTouchEnd = (event) => {
+    if (!this.infinite) return;
+    const { slides } = this;
+    if (!slides?.length) return;
+    const { scroller } = this.refs;
+    const touchEndX = event.changedTouches[0]?.clientX ?? 0;
+    const delta = touchEndX - this.#touchStartX;
+    const atStart = scroller.scrollLeft < 2;
+    const atEnd = scroller.scrollLeft > scroller.scrollWidth - scroller.clientWidth - 2;
+    if (delta > 30 && atStart) {
+      this.select(slides.length - 1, event);
+    } else if (delta < -30 && atEnd) {
+      this.select(0, event);
+    }
   };
 
   get slides() {
